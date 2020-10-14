@@ -11,8 +11,8 @@ public class ExitScene : MonoBehaviour
     void Start()
     {
         right = FindObjectOfType<LevelSO>();
-        float number = right.health;
-        float number2 = right.questions.Length;
+        float number = right._result;
+        float number2 = right.QuizSoList.Count;
         float number3 = number / number2 * 100;
         result.text = number3.ToString() + "%";
         Destroy(right.gameObject);

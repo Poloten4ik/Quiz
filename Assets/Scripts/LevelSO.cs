@@ -8,20 +8,23 @@ using UnityEngine.UI;
 public class LevelSO : MonoBehaviour
 {
 
-    public QuestionList[] questions;
+    public List<QuizSO> QuizSoList;
     public Text qText;
     public Text[] variantsText;
     public Button[] variantBttns = new Button[4];
-    public int health = 0;
+    public int _result = 0;
+    public int health = 3;
+    public Text healthText;
 
     List<object> qList;
-    QuestionList crntQ;
+    QuizSO _crntQ;
     int randQ;
 
     public void Awake()
     {
-        qList = new List<object>(questions);
+        qList = new List<object>(QuizSoList);
         QuestionGenerate();
+        print(health);
     }
     private void Start()
     {
@@ -32,10 +35,11 @@ public class LevelSO : MonoBehaviour
         if (qList.Count > 0)
         {
             randQ = Random.Range(0, qList.Count);
-            crntQ = qList[randQ] as QuestionList;
-            qText.text = crntQ.question;
-            List<string> variants = new List<string>(crntQ.variants);
-            for (int i = 0; i < crntQ.variants.Length; i++)
+            _crntQ = qList[randQ] as QuizSO;
+            qText.text = _crntQ.question;
+            healthText.text = "Жизней: " + health.ToString();
+            List<string> variants = new List<string>(_crntQ.variants);
+            for (int i = 0; i < _crntQ.variants.Length; i++)
             {
                 int rand = Random.Range(0, variants.Count);
                 variantsText[i].text = variants[rand];
@@ -49,12 +53,18 @@ public class LevelSO : MonoBehaviour
     }
     public void VariantsBttns(int index)
     {
-        if (variantsText[index].text.ToString() == crntQ.variants[0])
+        if (variantsText[index].text.ToString() == _crntQ.variants[0])
         {
-            health++;
+            _result++;
         }
         else
         {
+            health -= 1;
+            print(health);
+            if (health == 0)
+            {
+                SceneManager.LoadScene(2);
+            }
 
         }
         qList.RemoveAt(randQ);
@@ -62,10 +72,3 @@ public class LevelSO : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class QuestionList
-{
-    [TextArea(10, 30)]
-    public string question;
-    public string[] variants = new string[4];
-}

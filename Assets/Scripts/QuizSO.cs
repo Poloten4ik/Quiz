@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 [CreateAssetMenu(menuName = "Question", fileName = "New Question")]
 
 public class QuizSO : ScriptableObject

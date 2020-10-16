@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScenesLoader : MonoBehaviour
+namespace Assets.Scripts
 {
-    public void LoadNextScene(int index)
+    public class ScenesLoader : MonoBehaviour
     {
-        SceneManager.LoadScene(index);
-    }
-    public void Exit()
-    {
-        Application.Quit();
+        public void LoadNextScene(int index)
+        {
+            SceneManager.LoadScene(index);
+        }
+        public void Exit()
+        {
+            Application.Quit();
+        }
     }
 }
-

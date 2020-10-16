@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-[CreateAssetMenu(menuName = "Question", fileName = "New Question")]
 
-public class QuizSO : ScriptableObject
+namespace Assets.Scripts
 {
-    [TextArea(10, 30)]
-    public string question;
-    public string[] variants;
+    [CreateAssetMenu(menuName = "Question", fileName = "New Question")]
+
+    public class QuizSO : ScriptableObject
+    {
+        [TextArea(10, 30)]
+        public string question;
+        public string[] variants;
+    }
 }
 

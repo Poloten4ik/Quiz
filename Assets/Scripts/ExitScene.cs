@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExitScene : MonoBehaviour
+namespace Assets.Scripts
 {
-    public Text result;
-
-    private LevelSO right;
-    void Start()
+    public class ExitScene : MonoBehaviour
     {
-        right = FindObjectOfType<LevelSO>();
-        float number = right._result;
-        float number2 = right.QuizSoList.Count;
-        float number3 = number / number2 * 100;
-        result.text = number3.ToString() + "%";
-        Destroy(right.gameObject);
+        public Text result;
+        private GameManager right;
+        void Start()
+        {
+            right = FindObjectOfType<GameManager>();
+            float number = right._result;
+            float number2 = right.QuizSoList.Count;
+            float number3 = number / number2 * 100;
+            result.text = number3.ToString() + "%";
+            Destroy(right.gameObject);
+        }
     }
 }

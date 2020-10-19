@@ -15,17 +15,19 @@ namespace Assets.Scripts
 
         public Button[] variantBttns = new Button[4];
         public Button helpbttn;
-
-        public int _result = 0;
-        public int _questionNumber = 0;
-        int randQuestion;
-
+       
         public List<QuizSO> QuizSoList;
         List<object> questionList;
         QuizSO currentQuestion;
 
         public int _health = 3;
         public Image[] lives;
+
+        public int _result = 0;
+        public int _questionNumber = 0;
+
+        private int randQuestion;
+
         public void Awake()
         {
             questionList = new List<object>(QuizSoList);

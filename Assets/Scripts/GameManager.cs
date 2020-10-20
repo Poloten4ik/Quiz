@@ -31,15 +31,21 @@ namespace Assets.Scripts
         public void Awake()
         {
             questionList = new List<object>(QuizSoList);
-            StartCoroutine(QuestionGenerate());
+            StartCoroutine(UpdateQuestion());
+            QuestionGenerate();
         }
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
         }
-        public IEnumerator QuestionGenerate()
+        public IEnumerator UpdateQuestion()
         {
             yield return new WaitForSeconds(0.5f);
+            QuestionGenerate();
+        }
+
+        private void QuestionGenerate()
+        {
             if (questionList.Count > 0)
             {
                 randQuestion = Random.Range(0, questionList.Count);
@@ -71,8 +77,8 @@ namespace Assets.Scripts
                 _questionNumber += 1;
                 questionNumber.text = _questionNumber.ToString() + " / " + QuizSoList.Count;
             }
-             
-            HeartsUpdate();     
+
+            HeartsUpdate();
         }
 
         public void VariantsBttns(int index)
@@ -95,7 +101,7 @@ namespace Assets.Scripts
                 variantBttns[index].GetComponent<Image>().color = Color.green;
             }
             questionList.RemoveAt(randQuestion);
-            StartCoroutine(QuestionGenerate());
+            StartCoroutine(UpdateQuestion());
 
         }
 

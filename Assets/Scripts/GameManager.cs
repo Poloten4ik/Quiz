@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
         public Button[] variantBttns = new Button[4];
         public Button helpbttn;
-       
+
         public List<QuizSO> QuizSoList;
         List<object> questionList;
         QuizSO currentQuestion;
@@ -32,7 +32,6 @@ namespace Assets.Scripts
         {
             questionList = new List<object>(QuizSoList);
             StartCoroutine(UpdateQuestion());
-            QuestionGenerate();
         }
         private void Start()
         {
@@ -41,44 +40,42 @@ namespace Assets.Scripts
         public IEnumerator UpdateQuestion()
         {
             yield return new WaitForSeconds(0.5f);
-            QuestionGenerate();
-        }
-
-        private void QuestionGenerate()
-        {
-            if (questionList.Count > 0)
+          
             {
-                randQuestion = Random.Range(0, questionList.Count);
-                currentQuestion = questionList[randQuestion] as QuizSO;
-                questionText.text = currentQuestion.question;
-                List<string> variants = new List<string>(currentQuestion.variants);
-
-
-                for (int i = 0; i < currentQuestion.variants.Length; i++)
+                if (questionList.Count > 0)
                 {
-                    int rand = Random.Range(0, variants.Count);
-                    variantsText[i].text = variants[rand];
-                    variants.RemoveAt(rand);
-                    variantBttns[i].GetComponent<Image>().color = Color.white;
+                    randQuestion = Random.Range(0, questionList.Count);
+                    currentQuestion = questionList[randQuestion] as QuizSO;
+                    questionText.text = currentQuestion.question;
+                    List<string> variants = new List<string>(currentQuestion.variants);
+
+
+                    for (int i = 0; i < currentQuestion.variants.Length; i++)
+                    {
+                        int rand = Random.Range(0, variants.Count);
+                        variantsText[i].text = variants[rand];
+                        variants.RemoveAt(rand);
+                        variantBttns[i].GetComponent<Image>().color = Color.white;
+                    }
                 }
-            }
-            else
-            {
-                SceneManager.LoadScene(2);
-            }
+                else
+                {
+                    SceneManager.LoadScene(2);
+                }
 
-            for (int i = 0; i < variantBttns.Length; i++)
-            {
-                variantBttns[i].gameObject.SetActive(true);
-            }
+                for (int i = 0; i < variantBttns.Length; i++)
+                {
+                    variantBttns[i].gameObject.SetActive(true);
+                }
 
-            for (int i = questionList.Count - 1; i < questionList.Count; i++)
-            {
-                _questionNumber += 1;
-                questionNumber.text = _questionNumber.ToString() + " / " + QuizSoList.Count;
-            }
+                for (int i = questionList.Count - 1; i < questionList.Count; i++)
+                {
+                    _questionNumber += 1;
+                    questionNumber.text = _questionNumber.ToString() + " / " + QuizSoList.Count;
+                }
 
-            HeartsUpdate();
+                HeartsUpdate();
+            }
         }
 
         public void VariantsBttns(int index)
@@ -88,11 +85,18 @@ namespace Assets.Scripts
             {
                 variantBttns[index].image.color = Color.red;
 
+                for (int i = 0; i < variantBttns.Length; i++)
+                {
+                    if (variantsText[i].text.ToString() == currentQuestion.variants[0])
+                    {
+                        variantBttns[i].GetComponent<Image>().color = Color.green;
+                    }
+                }
                 _health -= 1;
 
                 if (_health == 0)
                 {
-                    SceneManager.LoadScene(2);
+                    StartCoroutine(Exit());
                 }
             }
             else
@@ -102,12 +106,10 @@ namespace Assets.Scripts
             }
             questionList.RemoveAt(randQuestion);
             StartCoroutine(UpdateQuestion());
-
         }
 
         public void HelpBttn()
         {
-
             for (int i = 0; i < variantBttns.Length; i++)
             {
                 if (variantsText[i].text.ToString() == currentQuestion.variants[0])
@@ -134,6 +136,11 @@ namespace Assets.Scripts
                     lives[i].enabled = false;
                 }
             }
+        }
+        public IEnumerator Exit()
+        {
+            yield return new WaitForSeconds(0.5f);
+            SceneManager.LoadScene(2);
         }
     }
 }
